@@ -15,6 +15,6 @@ class Dealer extends Model
 
     public function bookings()
     {
-        return $this->hasMany(Booking::class, 'dealer_id');
+        return $this->hasMany(\App\Models\Booking::class, 'dealer_id');
     }
 }

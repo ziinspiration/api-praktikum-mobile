@@ -17,7 +17,7 @@ class AuthController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
-            'tipe_akun' => 'nullable|string|in:customer,admin',
+            'tipe_akun' => 'nullable|string|in:customer,administrator',
         ]);
 
         if ($validator->fails()) {
@@ -31,9 +31,7 @@ class AuthController extends Controller
         }
 
         $user = User::create($data);
-
         $token = $user->createToken('apiToken')->plainTextToken;
-
         return response()->json(['user' => $user, 'token' => $token], 201);
     }
 
@@ -54,7 +52,6 @@ class AuthController extends Controller
 
         $user = User::where('email', $request->email)->firstOrFail();
         $token = $user->createToken('apiToken')->plainTextToken;
-
         return response()->json(['user' => $user, 'token' => $token], 200);
     }
 
@@ -67,5 +64,32 @@ class AuthController extends Controller
     public function user(Request $request)
     {
         return response()->json($request->user(), 200);
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $user = Auth::user();
+
+        if (!$user) {
+            return response()->json(['message' => 'Unauthenticated.'], 401);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $validatedData = $validator->validated();
+
+        if (isset($validatedData['name'])) {
+            $user->name = $validatedData['name'];
+        }
+
+        $user->save();
+
+        return response()->json($user, 200);
     }
 }
