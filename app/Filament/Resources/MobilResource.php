@@ -19,6 +19,17 @@ class MobilResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-truck';
 
+    public static function getNavigationLabel(): string
+    {
+        return 'Mobil';
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return 'Mobil';
+    }
+
+
     public static function form(Form $form): Form
     {
         return $form
@@ -90,9 +101,8 @@ class MobilResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('tahun')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('harga')
-                    ->money('IDR')
-                    ->sortable(),
+                Tables\Columns\TextColumn::make('transmisi')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('warna')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')

@@ -19,6 +19,17 @@ class DealerResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-building-storefront';
 
+    public static function getNavigationLabel(): string
+    {
+        return 'Dealer';
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return 'Dealer';
+    }
+
+
     public static function form(Form $form): Form
     {
         return $form
