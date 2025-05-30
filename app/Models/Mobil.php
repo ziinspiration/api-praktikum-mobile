@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Mobil extends Model
 {
@@ -29,6 +30,19 @@ class Mobil extends Model
         'tahun' => 'integer',
         'harga' => 'decimal:2',
     ];
+
+    protected $appends = ['gambar_url'];
+
+    public function getGambarUrlAttribute(): ?string
+    {
+        if ($this->gambar) {
+            if (filter_var($this->gambar, FILTER_VALIDATE_URL)) {
+                return $this->gambar;
+            }
+            return Storage::disk('public')->url($this->gambar);
+        }
+        return null;
+    }
 
     public function bookings()
     {
