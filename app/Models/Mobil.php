@@ -39,7 +39,7 @@ class Mobil extends Model
             if (filter_var($this->gambar, FILTER_VALIDATE_URL)) {
                 return $this->gambar;
             }
-            return Storage::disk('public')->url($this->gambar);
+            return asset('storage/' . $this->gambar);
         }
         return null;
     }
