@@ -33,7 +33,7 @@ class Mobil extends Model
 
     protected $appends = ['gambar_url'];
 
-    public function getGambarUrlAttribute(): ?string
+   public function getGambarUrlAttribute(): ?string
     {
         if ($this->gambar) {
             if (filter_var($this->gambar, FILTER_VALIDATE_URL)) {
