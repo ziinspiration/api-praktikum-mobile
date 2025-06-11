@@ -33,13 +33,13 @@ class Mobil extends Model
 
     protected $appends = ['gambar_url'];
 
-    public function getGambarUrlAttribute(): ?string
+   public function getGambarUrlAttribute(): ?string
     {
         if ($this->gambar) {
             if (filter_var($this->gambar, FILTER_VALIDATE_URL)) {
                 return $this->gambar;
             }
-            return Storage::disk('public')->url($this->gambar);
+            return asset('storage/' . $this->gambar);
         }
         return null;
     }
